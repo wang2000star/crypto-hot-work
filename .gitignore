@@ -7,5 +7,4 @@ crawl.log
 oai_test.log
 papers.csv
 papers_bulk.csv
-papers_classified.csv
 papers_tmp/

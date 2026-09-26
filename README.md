@@ -24,7 +24,9 @@ The collector reads the IACR archive and journal sources, Springer/Crossref proc
 - `papers_classified.csv`: title-deduplicated records with zero or more research-direction labels.
 - `topics_ranked.csv`: yearly direction counts, five-year ranking, and strict `>10` hot-topic years.
 - `topic_summary.md`: scope, coverage, ranked summary, and limitations.
-- `index.html`: browser-ready report generated from the CSV outputs.
+- `index.html`: browser-ready report generated from the CSV outputs. Each selected research direction includes an expandable, searchable list of all assigned papers and a CSV download.
+
+The classified corpus is checked in so the static dashboard and report can be rebuilt without rerunning the web collectors. It contains 11,438 title-deduplicated records, of which 2,936 receive at least one direction label; unclassified records do not appear in any direction list.
 - `rwc_program.csv`: accepted RWC talks kept apart from proceedings-paper counts.
 
 ## Interpreting topic counts

@@ -48,7 +48,7 @@ def main():
         if venue in VENUES:
             annual_outlet[venue][year] += 1
 
-    paper_samples = defaultdict(list)
+    papers_by_topic = defaultdict(list)
     for p in papers:
         year = p.get("year", "")
         direction_names = [x.strip() for x in p.get("directions", "").split(";") if x.strip()]
@@ -58,9 +58,14 @@ def main():
                 if venue in VENUES and venue != "RWC":
                     topic_venue[topic][venue] += 1
                     outlet_topics[venue][topic] += 1
-            if len(paper_samples[topic]) < 6:
-                url = p.get("eprint_url") or p.get("venue_url") or ""
-                paper_samples[topic].append({"title": p.get("title", ""), "year": year, "url": url})
+            url = p.get("eprint_url") or p.get("venue_url") or ""
+            papers_by_topic[topic].append({
+                "title": p.get("title", ""),
+                "year": year,
+                "url": url,
+                "authors": p.get("authors", ""),
+                "venues": p.get("venues", ""),
+            })
 
     data = {
         "years": YEARS,
@@ -79,7 +84,7 @@ def main():
         "rwcTalks": [rwc_counts[y] for y in YEARS],
         "topicVenue": {t: {v: topic_venue[t][v] for v in VENUES if v != "RWC"} for t in [x["name"] for x in topics]},
         "outletTopics": {v: dict(outlet_topics[v]) for v in VENUES if v != "RWC"},
-        "samples": dict(paper_samples),
+        "papersByTopic": dict(papers_by_topic),
     }
     template = Path("dashboard_template.html").read_text(encoding="utf-8")
     # Prevent embedded data from terminating the JSON script element.
