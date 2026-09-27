@@ -9,24 +9,22 @@ Open [`index.html`](index.html) in a browser for an interactive, self-contained 
 ## Rebuild the analysis
 
 ```bash
-python -m pip install -r requirements.txt
-python collect_iacr_publications.py
-python summarize_topics.py
+python summarize_topics.py --input papers_10y.csv --start-year 2017 --end-year 2026
 python build_dashboard.py
 ```
 
-The collector reads the IACR archive and journal sources, Springer/Crossref proceedings metadata, and the RWC program. To refresh the ePrint corpus, run the existing fetch/merge steps documented in `run_pull.sh`, `fetch_oai_bulk.py`, and `merge_papers.py`; then rerun the analysis commands above.
+`paper-pull` owns paper discovery and metadata collection. It exports `papers_10y.csv` and `iacr_publications.csv`; this project consumes those files for classification, ranking, and the HTML report. The ten-year publication window is 2017–2026 inclusive, with 2026 year-to-date. Keep collection credentials, checkpoints, and fetch logic in `paper-pull`.
 
 ## Outputs
 
 - `iacr_publications.csv`: collected venue and RWC program records, with source URLs and record type.
-- `papers_5y.csv`: ePrint input corpus for 2022–2026 year-to-date.
-- `papers_classified.csv`: title-deduplicated records with zero or more research-direction labels.
-- `topics_ranked.csv`: yearly direction counts, five-year ranking, and strict `>10` hot-topic years.
+- `papers_10y.csv`: fetched ePrint input corpus for 2017–2026 year-to-date.
+- `papers_classified.csv`: title-deduplicated decade records with zero or more research-direction labels.
+- `topics_ranked.csv`: yearly direction counts, ten-year ranking, and strict `>10` hot-topic years.
 - `topic_summary.md`: scope, coverage, ranked summary, and limitations.
 - `index.html`: browser-ready report generated from the CSV outputs. Each selected research direction includes an expandable, searchable list of all assigned papers and a CSV download.
 
-The classified corpus is checked in so the static dashboard and report can be rebuilt without rerunning the web collectors. It contains 11,438 title-deduplicated records, of which 2,936 receive at least one direction label; unclassified records do not appear in any direction list.
+The classified corpus and fetched input snapshots are checked in so the static dashboard and report can be rebuilt without rerunning the collectors. Unclassified records remain available in the dataset but do not appear in any direction list.
 - `rwc_program.csv`: accepted RWC talks kept apart from proceedings-paper counts.
 
 ## Interpreting topic counts

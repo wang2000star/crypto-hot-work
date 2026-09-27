@@ -7,4 +7,6 @@ crawl.log
 oai_test.log
 papers.csv
 papers_bulk.csv
+papers_bulk_10y.csv
+oai_state_10y.txt
 papers_tmp/
